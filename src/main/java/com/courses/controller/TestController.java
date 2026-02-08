@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("${courses.api.url}/test")
 @RequiredArgsConstructor
+@CrossOrigin
 public class TestController {
 
     private final TestService testService;
