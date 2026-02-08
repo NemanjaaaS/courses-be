@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: nemanja
+  - include:
+      file: db.changelog/sql/001-create-users-table.sql
+  - include:
+      file: db.changelog/sql/002-create-courses-table.sql
+  - include:
+      file: db.changelog/sql/003-create-tests-table.sql
+  - include:
+      file: db.changelog/sql/004-create-course-request-and-enrollments.sql
+  - include:
+      file: db.changelog/sql/005-create-questions-table.sql
+  - include:
+      file: db.changelog/sql/006-create-enrolled-tests-table.sql
