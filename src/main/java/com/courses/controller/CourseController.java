@@ -18,20 +18,14 @@ import java.util.List;
 @RestController
 @RequestMapping("${courses.api.url}/course")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173")
 public class CourseController {
 
     private final CourseService courseService;
 
     @GetMapping("/all")
-    public Page<CourseTableDTO> getCourses(
-            @RequestParam(required = false) String search,
-            @RequestParam(required = false) CourseCategory category,
-            @RequestParam(required = false) CourseLevel level,
-            @RequestHeader("Authorization") String token,
-            Pageable pageable
-    ) {
-        return courseService.getCourses(search, category, level, pageable, token);
+    public List<CourseTableDTO> getCourses(@RequestHeader("Authorization") String token) {
+        return courseService.getCourses(token);
     }
 
     @PostMapping("/request-course/{courseId}")

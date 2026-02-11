@@ -9,18 +9,12 @@ import com.courses.exception.NotFoundException;
 import com.courses.models.Course;
 import com.courses.models.Enrollment;
 import com.courses.models.User;
-import com.courses.models.enums.CourseCategory;
-import com.courses.models.enums.CourseLevel;
 import com.courses.repositories.CourseRepository;
 import com.courses.service.CourseRequestService;
 import com.courses.service.CourseService;
 import com.courses.service.EnrollmentService;
 import com.courses.service.UserService;
-import com.courses.specification.CourseSpecification;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,19 +36,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Page<CourseTableDTO> getCourses(String search,
-                                   CourseCategory category,
-                                   CourseLevel level,
-                                   Pageable pageable,
-                                   String token) {
-        Specification<Course> spec = Specification
-                .where(CourseSpecification.isActive())
-                .and(CourseSpecification.titleContains(search))
-                .and(CourseSpecification.hasCategory(category))
-                .and(CourseSpecification.hasLevel(level));
+    public List<CourseTableDTO> getCourses(String token) {
 
         String email = jwtService.getEmailFromUnsplitToken(token);
-        return courseRepository.findAll(spec, pageable).map(course -> new CourseTableDTO(course, courseRequestService.isUserRequestedCourse(course, email)));
+        List<Course> courses = courseRepository.findAll();
+        return courses.stream().map(course -> new CourseTableDTO(course, courseRequestService.isUserRequestedCourse(course, email))).toList();
     }
 
     @Override
@@ -64,12 +50,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> getAllUserCourses(String token) {
-        return enrollmentService.getAllUserEnrollments(
-                userService.getUserByEmail(jwtService.getEmailFromUnsplitToken(token))
-        )
-                .stream()
-                .map(Enrollment::getCourse)
-                .toList();
+        return enrollmentService.getAllUserEnrollments(userService.getUserByEmail(jwtService.getEmailFromUnsplitToken(token))).stream().map(Enrollment::getCourse).toList();
     }
 
     @Override

@@ -16,13 +16,7 @@ import java.util.List;
 public interface CourseService {
 
     Course getCourseById(int id);
-    Page<CourseTableDTO> getCourses(
-            String search,
-            CourseCategory category,
-            CourseLevel level,
-            Pageable pageable,
-            String token
-    );
+    List<CourseTableDTO> getCourses(String token);
     ResponseDTO requestCourse(int courseId, String token);
 
     List<Course> getAllUserCourses(String token);
