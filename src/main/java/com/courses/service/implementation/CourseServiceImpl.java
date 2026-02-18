@@ -74,4 +74,10 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.save(new Course(createCourseDTO));
     }
 
+    @Override
+    public String deleteCourse(Integer courseId){
+         courseRepository.deleteById(courseId);
+         return "Course Deleted Successfully!";
+    }
+
 }

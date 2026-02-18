@@ -14,6 +14,10 @@ public interface TestService {
     List<Test> getTestsByCourseId(int courseId);
     List<UserTestDTO> getUserTests(String token);
 
+    List<Test> getAllTests(String token);
+
+    String deleteTest(Integer testId);
+
     TestPassDTO submitTest(TestSubmissionDTO testSubmissionDTO, String token);
     Test createTest(CreateTestDTO createTestDTO);
 

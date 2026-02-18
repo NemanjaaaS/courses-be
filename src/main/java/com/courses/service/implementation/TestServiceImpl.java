@@ -1,12 +1,16 @@
 package com.courses.service.implementation;
 
-import com.courses.dto.*;
+import com.courses.dto.CreateTestDTO;
+import com.courses.dto.TestPassDTO;
+import com.courses.dto.TestSubmissionDTO;
+import com.courses.dto.UserTestDTO;
 import com.courses.exception.NotFoundException;
 import com.courses.models.Course;
 import com.courses.models.EnrolledTest;
 import com.courses.models.Test;
 import com.courses.models.User;
 import com.courses.repositories.EnrolledTestRepository;
+import com.courses.repositories.QuestionRepository;
 import com.courses.repositories.TestRepository;
 import com.courses.service.CourseService;
 import com.courses.service.QuestionService;
@@ -15,6 +19,7 @@ import com.courses.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +30,12 @@ public class TestServiceImpl implements TestService {
 
     private final TestRepository testRepository;
     private final CourseService courseService;
+    private final QuestionRepository questionRepository;
     @Lazy
     private final QuestionService questionService;
     private final EnrolledTestRepository enrolledTestRepository;
     private final UserService userService;
+
 
     @Override
     public Test getTestById(int testId) {
@@ -42,11 +49,7 @@ public class TestServiceImpl implements TestService {
     }
 
     public List<UserTestDTO> getUserTests(String token) {
-        List<Test> tests = courseService.getAllUserCourses(token)
-                .stream()
-                .map(Course::getId)
-                .flatMap(id -> getTestsByCourseId(id.intValue()).stream())
-                .toList();
+        List<Test> tests = courseService.getAllUserCourses(token).stream().map(Course::getId).flatMap(id -> getTestsByCourseId(id.intValue()).stream()).toList();
 
         List<UserTestDTO> userTestDTOS = new ArrayList<>();
 
@@ -62,6 +65,19 @@ public class TestServiceImpl implements TestService {
         });
 
         return userTestDTOS;
+    }
+
+    @Override
+    public List<Test> getAllTests(String token) {
+        return testRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public String deleteTest(Integer testId) {
+        questionRepository.deleteAllByTest(getTestById(testId));
+        testRepository.deleteById(testId);
+        return "Test deleted successfully!";
     }
 
     @Override

@@ -27,4 +27,6 @@ public interface CourseService {
 
     Course createCourse(CreateCourseDTO createCourseDTO);
 
+    String deleteCourse(Integer courseId);
+
 }

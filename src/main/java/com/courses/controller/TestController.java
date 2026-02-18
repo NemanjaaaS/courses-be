@@ -27,6 +27,13 @@ public class TestController {
         return ResponseEntity.ok(testService.getTestsByCourseId(courseId));
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Test>> allTests(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(testService.getAllTests(token));
+    }
+
+
+
     @GetMapping("/my-tests")
     public ResponseEntity<List<UserTestDTO>> currentUserTests(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(testService.getUserTests(token));

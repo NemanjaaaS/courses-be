@@ -38,4 +38,14 @@ public class AdminController {
         return ResponseEntity.ok(testService.createTest(createTestDTO));
     }
 
+    @DeleteMapping("/delete-course/{courseId}")
+    public ResponseEntity<String> deleteCourse(@PathVariable Integer courseId){
+        return ResponseEntity.ok(courseService.deleteCourse(courseId));
+    }
+    @DeleteMapping("/delete-test/{testId}")
+    public ResponseEntity<String> deleteTest(@PathVariable Integer testId){
+        return ResponseEntity.ok(testService.deleteTest(testId));
+    }
+
+
 }

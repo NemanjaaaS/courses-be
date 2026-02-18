@@ -12,4 +12,6 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
     List<Question> getQuestionsByTest(Test test);
 
+    void deleteAllByTest(Test test);
+
 }
