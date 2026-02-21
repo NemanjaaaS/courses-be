@@ -1,6 +1,7 @@
 package com.courses.service.implementation;
 
 import com.courses.dto.ChangeRequestStatusDTO;
+import com.courses.dto.CourseTableDTO;
 import com.courses.dto.ResponseDTO;
 import com.courses.exception.BadRequestException;
 import com.courses.exception.NotFoundException;
@@ -15,6 +16,7 @@ import com.courses.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -72,6 +74,11 @@ public class CourseRequestServiceImpl implements CourseRequestService {
         courseRequestRepository.save(courseRequest);
 
         return new ResponseDTO("You changed status to: " + changeRequestStatusDTO.getRequestStatus());
+    }
+
+    @Override
+    public List<CourseRequest> getRequestedCourses(String token){
+        return courseRequestRepository.findAll();
     }
 
 }

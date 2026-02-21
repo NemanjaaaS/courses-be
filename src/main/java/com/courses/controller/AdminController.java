@@ -23,10 +23,12 @@ public class AdminController {
     private final CourseService courseService;
     private final TestService testService;
 
-    @PostMapping("/change-test-status")
-    public ResponseEntity<ResponseDTO> changeTestStatus(@RequestBody ChangeRequestStatusDTO changeRequestStatusDTO) {
+    @PostMapping("/change-course-status")
+    public ResponseEntity<ResponseDTO> changeCourseStatus(@RequestBody ChangeRequestStatusDTO changeRequestStatusDTO) {
         return ResponseEntity.ok(courseRequestService.changeRequestStatus(changeRequestStatusDTO));
     }
+
+
 
     @PostMapping("/create-course")
     public ResponseEntity<Course> createCourse(@RequestBody CreateCourseDTO createCourseDTO) {

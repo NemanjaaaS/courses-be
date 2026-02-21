@@ -4,8 +4,10 @@ import com.courses.dto.CertificateDTO;
 import com.courses.dto.CourseTableDTO;
 import com.courses.dto.ResponseDTO;
 import com.courses.models.Course;
+import com.courses.models.CourseRequest;
 import com.courses.models.enums.CourseCategory;
 import com.courses.models.enums.CourseLevel;
+import com.courses.service.CourseRequestService;
 import com.courses.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,10 +24,16 @@ import java.util.List;
 public class CourseController {
 
     private final CourseService courseService;
+    private final CourseRequestService courseRequestService;
 
     @GetMapping("/all")
     public List<CourseTableDTO> getCourses(@RequestHeader("Authorization") String token) {
         return courseService.getCourses(token);
+    }
+
+    @GetMapping("/requested-courses")
+    public List<CourseRequest> getRequestedCourses(@RequestHeader("Authorization") String token){
+        return  courseRequestService.getRequestedCourses(token);
     }
 
     @PostMapping("/request-course/{courseId}")
