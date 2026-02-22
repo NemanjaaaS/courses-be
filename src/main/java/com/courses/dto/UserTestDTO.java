@@ -1,5 +1,6 @@
 package com.courses.dto;
 
+import com.courses.models.Course;
 import com.courses.models.Test;
 import lombok.Data;
 
@@ -20,6 +21,8 @@ public class UserTestDTO {
 
     public boolean passed;
 
+    public Course course;
+
     public UserTestDTO(Test test, Boolean isAttended, Boolean isPassed) {
         this.id = test.getId();
         this.title = test.getTitle();
@@ -28,6 +31,7 @@ public class UserTestDTO {
         this.passingScorePercentage = test.getPassingScorePercentage();
         this.attended = isAttended;
         this.passed = isPassed;
+        this.course = test.getCourse();
     }
 
 }
