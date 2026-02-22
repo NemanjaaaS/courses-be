@@ -1,9 +1,6 @@
 package com.courses.controller;
 
-import com.courses.dto.SingleQuestionDTO;
-import com.courses.dto.TestPassDTO;
-import com.courses.dto.TestSubmissionDTO;
-import com.courses.dto.UserTestDTO;
+import com.courses.dto.*;
 import com.courses.models.Test;
 import com.courses.service.QuestionService;
 import com.courses.service.TestService;
@@ -30,6 +27,11 @@ public class TestController {
     @GetMapping("/all")
     public ResponseEntity<List<Test>> allTests(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(testService.getAllTests(token));
+    }
+
+    @GetMapping("admin-tests-results")
+    public ResponseEntity<List<UserResultsDTO>> testResults(){
+        return ResponseEntity.ok(testService.getAllUserTestsForAdmin());
     }
 
 

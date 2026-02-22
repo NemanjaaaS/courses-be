@@ -1,17 +1,17 @@
 package com.courses.controller;
 
-import com.courses.dto.ChangeRequestStatusDTO;
-import com.courses.dto.CreateCourseDTO;
-import com.courses.dto.CreateTestDTO;
-import com.courses.dto.ResponseDTO;
+import com.courses.dto.*;
 import com.courses.models.Course;
 import com.courses.models.Test;
 import com.courses.service.CourseRequestService;
 import com.courses.service.CourseService;
 import com.courses.service.TestService;
+import com.courses.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("${courses.api.url}/admin")
@@ -22,6 +22,7 @@ public class AdminController {
     private final CourseRequestService courseRequestService;
     private final CourseService courseService;
     private final TestService testService;
+    private final UserService userService;
 
     @PostMapping("/change-course-status")
     public ResponseEntity<ResponseDTO> changeCourseStatus(@RequestBody ChangeRequestStatusDTO changeRequestStatusDTO) {
@@ -47,6 +48,11 @@ public class AdminController {
     @DeleteMapping("/delete-test/{testId}")
     public ResponseEntity<String> deleteTest(@PathVariable Integer testId){
         return ResponseEntity.ok(testService.deleteTest(testId));
+    }
+
+    @GetMapping("/all-users")
+    public ResponseEntity<List<UserTableDTO>> allUsers(){
+        return ResponseEntity.ok(userService.getAllUsersForTable());
     }
 
 

@@ -1,9 +1,6 @@
 package com.courses.service.implementation;
 
-import com.courses.dto.CreateTestDTO;
-import com.courses.dto.TestPassDTO;
-import com.courses.dto.TestSubmissionDTO;
-import com.courses.dto.UserTestDTO;
+import com.courses.dto.*;
 import com.courses.exception.NotFoundException;
 import com.courses.models.Course;
 import com.courses.models.EnrolledTest;
@@ -65,6 +62,30 @@ public class TestServiceImpl implements TestService {
         });
 
         return userTestDTOS;
+    }
+
+    @Override
+    public List<UserResultsDTO> getAllUserTestsForAdmin() {
+
+        List<EnrolledTest> enrollments = enrolledTestRepository.findAll();
+
+        return enrollments.stream()
+                .map(enrollment -> {
+                    Test test = enrollment.getTest();
+                    User user = enrollment.getUser();
+                    int userPercentage = enrollment.getPercentage();
+
+                    boolean passed = enrollment.isPassed();
+
+                    return new UserResultsDTO(
+                            test,
+                            true,
+                            passed,
+                            user,
+                            userPercentage
+                    );
+                })
+                .toList();
     }
 
     @Override

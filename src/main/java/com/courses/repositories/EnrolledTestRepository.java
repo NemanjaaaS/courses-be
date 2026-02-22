@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
 public interface EnrolledTestRepository extends JpaRepository<EnrolledTest, EnrolledTestKey> {
 
@@ -30,5 +31,4 @@ public interface EnrolledTestRepository extends JpaRepository<EnrolledTest, Enro
             AND `enrolled_tests`.`is_passed` = 1;
             """, nativeQuery = true)
     Integer getPassedTestsCountForUser(int courseId, int userId);
-
 }
