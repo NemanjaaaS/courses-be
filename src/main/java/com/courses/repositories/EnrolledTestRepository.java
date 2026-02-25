@@ -31,4 +31,14 @@ public interface EnrolledTestRepository extends JpaRepository<EnrolledTest, Enro
             AND `enrolled_tests`.`is_passed` = 1;
             """, nativeQuery = true)
     Integer getPassedTestsCountForUser(int courseId, int userId);
+
+    @Query("SELECT AVG(t.percentage) FROM EnrolledTest t")
+    Double avgScore();
+
+    @Query("""
+    SELECT 
+    (SUM(CASE WHEN t.isPassed = true THEN 1 ELSE 0 END) * 100.0 / COUNT(t))
+    FROM EnrolledTest t
+""")
+    Double passRate();
 }

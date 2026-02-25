@@ -3,10 +3,7 @@ package com.courses.controller;
 import com.courses.dto.*;
 import com.courses.models.Course;
 import com.courses.models.Test;
-import com.courses.service.CourseRequestService;
-import com.courses.service.CourseService;
-import com.courses.service.TestService;
-import com.courses.service.UserService;
+import com.courses.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +20,7 @@ public class AdminController {
     private final CourseService courseService;
     private final TestService testService;
     private final UserService userService;
+    private final DashboardService dashboardService;
 
     @PostMapping("/change-course-status")
     public ResponseEntity<ResponseDTO> changeCourseStatus(@RequestBody ChangeRequestStatusDTO changeRequestStatusDTO) {
@@ -53,6 +51,11 @@ public class AdminController {
     @GetMapping("/all-users")
     public ResponseEntity<List<UserTableDTO>> allUsers(){
         return ResponseEntity.ok(userService.getAllUsersForTable());
+    }
+
+    @GetMapping("/dashboard")
+    public DashboardDTO getDashboard() {
+        return dashboardService.getAdminDashboard();
     }
 
 
