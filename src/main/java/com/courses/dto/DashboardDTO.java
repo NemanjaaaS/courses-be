@@ -18,4 +18,7 @@ public class DashboardDTO {
     private double conversionRate;
     private List<MonthlyRevenueDTO> revenueByMonth;
     private Double passRate;
+    private List<AverageTestScoreDTO> averageTestScoreList;
+    private int passedTests;
+    private int failedTests;
 }

@@ -1,5 +1,6 @@
 package com.courses.repositories;
 
+import com.courses.dto.AverageTestScoreDTO;
 import com.courses.models.EnrolledTest;
 import com.courses.models.Test;
 import com.courses.models.User;
@@ -7,6 +8,8 @@ import com.courses.models.keys.EnrolledTestKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 @Repository
@@ -41,4 +44,18 @@ public interface EnrolledTestRepository extends JpaRepository<EnrolledTest, Enro
     FROM EnrolledTest t
 """)
     Double passRate();
+
+    @Query("""
+    SELECT new com.courses.dto.AverageTestScoreDTO(et.test, AVG(et.percentage))
+    FROM EnrolledTest et
+    GROUP BY et.test
+    ORDER BY AVG(et.percentage) DESC
+    """)
+    List<AverageTestScoreDTO> findAverageTestScoresOrderByScoreDesc();
+
+    @Query("SELECT COUNT(et) FROM EnrolledTest et WHERE et.isPassed")
+    int  getAllPassedTests();
+
+    @Query("SELECT COUNT(et) FROM EnrolledTest et WHERE et.isPassed = false")
+    int  getAllFailedTests();
 }

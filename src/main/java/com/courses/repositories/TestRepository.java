@@ -14,14 +14,4 @@ public interface TestRepository extends JpaRepository<Test, Integer> {
     List<Test> getTestByCourse(Course course);
     Integer countByCourse(Course course);
 
-    @Query("SELECT AVG(t.percentage) FROM EnrolledTest t")
-    Double avgScore();
-
-    @Query("""
-        SELECT 
-        (SUM(CASE WHEN t.isPassed = true THEN 1 ELSE 0 END) * 100.0 / COUNT(t))
-        FROM EnrolledTest t
-    """)
-    Double passRate();
-
 }

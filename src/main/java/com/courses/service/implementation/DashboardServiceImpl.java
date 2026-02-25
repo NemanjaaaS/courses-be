@@ -1,5 +1,6 @@
 package com.courses.service.implementation;
 
+import com.courses.dto.AverageTestScoreDTO;
 import com.courses.dto.DashboardDTO;
 import com.courses.dto.MonthlyRevenueDTO;
 import com.courses.models.CourseRequest;
@@ -25,6 +26,7 @@ public class DashboardServiceImpl implements DashboardService {
     private final CourseRequestRepository courseRequestRepository;
     private final EnrollmentService enrollmentService;
     private final TestRepository testRepository;
+    private final EnrolledTestRepository enrolledTestRepository;
 
     @Override
     public DashboardDTO getAdminDashboard() {
@@ -32,8 +34,13 @@ public class DashboardServiceImpl implements DashboardService {
         // ===== USERS =====
         long totalUsers = userRepository.countByRole(Role.USER);
 
-        Double passRate = testRepository.passRate();
+        Double passRate = enrolledTestRepository.passRate();
 
+        int passedTests = enrolledTestRepository.getAllPassedTests();
+
+        int failedTests = enrolledTestRepository.getAllFailedTests();
+
+        List<AverageTestScoreDTO> averageTestScoreList  = enrolledTestRepository.findAverageTestScoresOrderByScoreDesc();
         long activeUsers = userRepository.findAll().stream()
                 .filter(user -> !enrollmentService.getAllUserEnrollments(user).isEmpty())
                 .count();
@@ -67,7 +74,7 @@ public class DashboardServiceImpl implements DashboardService {
                 .filter(r -> r.getStatus() == RequestStatus.APPROVED)
                 .collect(Collectors.groupingBy(
                         r -> {
-                            Timestamp date = r.getRequestDate();
+                            Timestamp date = r.getProcessedDate();
                             LocalDate localDate = date.toLocalDateTime().toLocalDate();
                             return localDate.getYear() + "-" + localDate.getMonthValue();
                         },
@@ -88,7 +95,10 @@ public class DashboardServiceImpl implements DashboardService {
                 pendingRevenue,
                 conversionRate,
                 revenueByMonth,
-                passRate
+                passRate,
+                averageTestScoreList,
+                passedTests,
+                failedTests
         );
     }
 }
