@@ -38,4 +38,6 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Enrollme
     Double totalRevenue();
 
 
+
+
 }

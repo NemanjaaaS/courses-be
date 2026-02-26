@@ -1,8 +1,6 @@
 package com.courses.service.implementation;
 
-import com.courses.dto.AverageTestScoreDTO;
-import com.courses.dto.DashboardDTO;
-import com.courses.dto.MonthlyRevenueDTO;
+import com.courses.dto.*;
 import com.courses.models.CourseRequest;
 import com.courses.models.enums.RequestStatus;
 import com.courses.models.enums.Role;
@@ -10,6 +8,7 @@ import com.courses.repositories.*;
 import com.courses.service.DashboardService;
 import com.courses.service.EnrollmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -34,13 +33,18 @@ public class DashboardServiceImpl implements DashboardService {
         // ===== USERS =====
         long totalUsers = userRepository.countByRole(Role.USER);
 
+        List<CumulativeUserCountDTO> cumulativeUserCount = userRepository.getCumulativeUserCountByRole(Role.USER);
+
         Double passRate = enrolledTestRepository.passRate();
 
         int passedTests = enrolledTestRepository.getAllPassedTests();
 
         int failedTests = enrolledTestRepository.getAllFailedTests();
 
+        List<TopCourseDTO> topCourseDTOS = courseRepository.findTopCourses(PageRequest.of(0, 5));
+
         List<AverageTestScoreDTO> averageTestScoreList  = enrolledTestRepository.findAverageTestScoresOrderByScoreDesc();
+
         long activeUsers = userRepository.findAll().stream()
                 .filter(user -> !enrollmentService.getAllUserEnrollments(user).isEmpty())
                 .count();
@@ -98,7 +102,9 @@ public class DashboardServiceImpl implements DashboardService {
                 passRate,
                 averageTestScoreList,
                 passedTests,
-                failedTests
+                failedTests,
+                cumulativeUserCount,
+                topCourseDTOS
         );
     }
 }

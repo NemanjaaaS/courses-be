@@ -14,3 +14,5 @@ databaseChangeLog:
       file: db.changelog/sql/005-create-questions-table.sql
   - include:
       file: db.changelog/sql/006-create-enrolled-tests-table.sql
+  - include:
+      file: db.changelog/sql/007-add-created-at-to-users.sql

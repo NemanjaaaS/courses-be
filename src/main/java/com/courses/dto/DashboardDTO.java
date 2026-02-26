@@ -21,4 +21,6 @@ public class DashboardDTO {
     private List<AverageTestScoreDTO> averageTestScoreList;
     private int passedTests;
     private int failedTests;
+    private List<CumulativeUserCountDTO> cumulativeUserCount;
+    private List<TopCourseDTO> topCourseDTOS;
 }
