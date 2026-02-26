@@ -5,6 +5,7 @@ import com.courses.models.EnrolledTest;
 import com.courses.models.Test;
 import com.courses.models.User;
 import com.courses.models.keys.EnrolledTestKey;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -58,4 +59,29 @@ public interface EnrolledTestRepository extends JpaRepository<EnrolledTest, Enro
 
     @Query("SELECT COUNT(et) FROM EnrolledTest et WHERE et.isPassed = false")
     int  getAllFailedTests();
+
+    @Query("SELECT COUNT(e) FROM EnrolledTest e WHERE e.user.id = :userId AND e.isPassed = true")
+    int countPassedByUser(int userId);
+
+    @Query("SELECT COUNT(e) FROM EnrolledTest e WHERE e.user.id = :userId AND e.isPassed = false")
+    int countFailedByUser(int userId);
+
+    @Query("SELECT AVG(e.percentage) FROM EnrolledTest e WHERE e.user.id = :userId")
+    Double averageScoreByUser(int userId);
+
+    @Query("""
+    SELECT COUNT(e)
+    FROM EnrolledTest e
+    WHERE e.user.id = :userId
+    AND e.test.course.id = :courseId
+    AND e.isPassed = true
+""")
+    long countPassedByUserAndCourse(int userId, Long courseId);
+
+    @Query("""
+    SELECT e FROM EnrolledTest e
+    WHERE e.user.id = :userId
+    ORDER BY e.createdAt DESC
+""")
+    List<EnrolledTest> findTop3ByUserOrderByDateDesc(int userId, Pageable pageable);
 }
