@@ -21,6 +21,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     public Enrollment createEnrollment(User user, Course course) {
+        course.setEnrolledCount(course.getEnrolledCount() + 1);
         return enrollmentRepository.save(new Enrollment(user, course));
     }
 

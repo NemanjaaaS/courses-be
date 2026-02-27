@@ -37,7 +37,7 @@ public class DashboardServiceImpl implements DashboardService {
         // ===== USERS =====
         long totalUsers = userRepository.countByRole(Role.USER);
 
-        List<CumulativeUserCountDTO> cumulativeUserCount = userRepository.getCumulativeUserCountByRole(Role.USER);
+        List<CumulativeUserCountDTO> cumulativeUserCount = userRepository.getCumulativeUserCountByRole();
 
         Double passRate = enrolledTestRepository.passRate();
 
