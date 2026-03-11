@@ -27,4 +27,7 @@ public interface CourseRequestRepository extends JpaRepository<CourseRequest, In
     @Query("SELECT COUNT(r) FROM CourseRequest r WHERE r.status = 'REJECTED'")
     Long countRejected();
 
+    @Query("SELECT r FROM CourseRequest  r ORDER BY r.requestDate DESC")
+    List<CourseRequest> findAllCourseRequests();
+
 }

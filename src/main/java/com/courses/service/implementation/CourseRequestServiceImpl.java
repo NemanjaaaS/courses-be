@@ -78,7 +78,7 @@ public class CourseRequestServiceImpl implements CourseRequestService {
 
     @Override
     public List<CourseRequest> getRequestedCourses(String token){
-        return courseRequestRepository.findAll();
+        return courseRequestRepository.findAllCourseRequests();
     }
 
 }

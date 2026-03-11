@@ -4,6 +4,8 @@ import com.courses.models.Test;
 import com.courses.models.User;
 import lombok.Data;
 
+import java.util.Objects;
+
 @Data
 public class UserResultsDTO {
     private int id;
@@ -20,8 +22,8 @@ public class UserResultsDTO {
 
     public User user;
 
-    public UserResultsDTO(Test test, Boolean isAttended, Boolean isPassed,User user, int percentage) {
-        this.id = test.getId();
+    public UserResultsDTO(Test test, Boolean isAttended, Boolean isPassed, User user, int percentage) {
+        this.id = Objects.hash(test.getId(), user.getId()); // unique combination
         this.title = test.getTitle();
         this.passingScorePercentage = test.getPassingScorePercentage();
         this.attended = isAttended;
@@ -29,6 +31,5 @@ public class UserResultsDTO {
         this.user = user;
         this.userScore = percentage;
     }
-
 
 }
